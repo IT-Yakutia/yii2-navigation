@@ -21,7 +21,7 @@ use ityakutia\navigation\models\Navigation;
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col s12 m6 l6">
-            <?= $form->field($model, 'parent')->dropDownList(ArrayHelper::map(Navigation::find()->all(),'id','name'), ['prompt' => 'Выберите']) ?>
+            <?= $form->field($model, 'parent')->dropDownList(ArrayHelper::map(Navigation::find()->where(['!=', 'id', $model->id])->all(),'id','name'), ['prompt' => 'Выберите']) ?>
             </div>
     </div>
 
