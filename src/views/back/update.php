@@ -1,6 +1,6 @@
 <?php
 
-$this->title = 'Редактирование: ' . $model->title;
+$this->title = 'Редактирование: ' . $model->name;
 ?>
 <div class="navigation-update">
     <div class="row">
