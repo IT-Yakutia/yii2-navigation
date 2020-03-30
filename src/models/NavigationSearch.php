@@ -11,7 +11,7 @@ class NavigationSearch extends Navigation
     {
         return [
             [['id', 'sort', 'is_publish', 'status', 'created_at', 'updated_at', 'parent'], 'integer'],
-            [['name', 'parent'], 'safe']
+            [['name', 'parent', 'link'], 'safe']
         ];
     }
 
@@ -44,7 +44,7 @@ class NavigationSearch extends Navigation
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])->andFilterWhere(['like', 'link', $this->link]);
 
         return $dataProvider;
     }

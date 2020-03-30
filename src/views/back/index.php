@@ -54,6 +54,13 @@ $this->title = 'Навигация';
                         }
                     ],
                     [
+                        'attribute' => 'link',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            return Html::a($model->link, ['update', 'id' => $model->id]);
+                        }
+                    ],
+                    [
                         'attribute' => 'parent',
                         'format' => 'raw',
                         'value' => function ($model) {

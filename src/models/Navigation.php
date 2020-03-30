@@ -27,9 +27,9 @@ class Navigation extends ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name', 'link'], 'required'],
             [['sort', 'is_publish', 'status', 'created_at', 'updated_at', 'parent'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name', 'link'], 'string', 'max' => 255]
         ];
     }
 
@@ -38,6 +38,7 @@ class Navigation extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'link' => 'Link',
             'parent' => 'Parent',
             'sort' => 'Sort',
             'is_publish' => 'Is Publish',

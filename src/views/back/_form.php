@@ -17,10 +17,13 @@ use ityakutia\navigation\models\Navigation;
     <?= WCheckbox::widget(['model' => $model, 'attribute' => 'is_publish']); ?>
 
     <div class="row">
-        <div class="col s12 m6 l6">
+        <div class="col s12 m4 l6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col s12 m6 l6">
+        <div class="col s12 m4 l6">
+            <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col s12 m4 l6">
             <?= $form->field($model, 'parent')->dropDownList(ArrayHelper::map(Navigation::find()->where(['!=', 'id', $model->id])->all(),'id','name'), ['prompt' => 'Выберите']) ?>
             </div>
     </div>
