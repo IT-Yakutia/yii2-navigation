@@ -61,10 +61,17 @@ $this->title = 'Навигация';
                         }
                     ],
                     [
-                        'attribute' => 'parent',
+                        'attribute' => 'slug',
+                        'format' => 'raw',
+                        'value' => function($model){
+                            return Html::a('<span class="grey-text">'.Yii::$app->params['domain'].'</span>/'.$model->slug, '/'.$model->slug, ['target' => "_blank"]);
+                        },
+                    ],
+                    [
+                        'attribute' => 'parent_id',
                         'format' => 'raw',
                         'value' => function ($model) {
-                            return Html::a(Navigation::findOne($model->parent)->name, ['update', 'id' => $model->id]);
+                            return Html::a(Navigation::findOne($model->parent_id)->name, ['update', 'id' => $model->id]);
                         }
                     ],
                     [

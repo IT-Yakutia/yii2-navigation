@@ -10,8 +10,8 @@ class NavigationSearch extends Navigation
     public function rules()
     {
         return [
-            [['id', 'sort', 'is_publish', 'status', 'created_at', 'updated_at', 'parent'], 'integer'],
-            [['name', 'parent', 'link'], 'safe']
+            [['id', 'sort', 'is_publish', 'status', 'created_at', 'updated_at', 'parent_id'], 'integer'],
+            [['name', 'parent_id', 'link'], 'safe']
         ];
     }
 

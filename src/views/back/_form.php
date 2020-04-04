@@ -24,8 +24,27 @@ use ityakutia\navigation\models\Navigation;
             <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col s12 m4 l6">
-            <?= $form->field($model, 'parent')->dropDownList(ArrayHelper::map(Navigation::find()->where(['!=', 'id', $model->id])->all(),'id','name'), ['prompt' => 'Выберите']) ?>
+            <?= $form->field($model, 'parent_id')->dropDownList(ArrayHelper::map(Navigation::find()->where(['!=', 'id', $model->id])->andWhere(['parent_id' => null])->all(), 'id', 'name'), ['prompt' => 'Выберите']) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+        <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+
+        <?php if (!$model->isNewRecord) { ?>
+            <div class="input-field">
+                <input disabled value="<?= '/' . $model->slug; ?>" id="disabled" type="text" class="validate">
+                <label for="disabled">Относительный url страницы</label>
             </div>
+
+            <div class="input-field">
+                <input disabled value="<?= Yii::$app->params['domain'] . $model->slug; ?>" id="disabled" type="text" class="validate">
+                <label for="disabled">Асолютный url страницы</label>
+                <?= Html::a("Перейти", '/quiz/' . $model->slug, ['target' => "_blank"]); ?>
+            </div>
+        <?php } ?>
+        </div>
     </div>
 
     <div class="form-group">
