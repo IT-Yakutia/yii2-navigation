@@ -61,13 +61,6 @@ $this->title = 'Навигация';
                         }
                     ],
                     [
-                        'attribute' => 'slug',
-                        'format' => 'raw',
-                        'value' => function($model){
-                            return Html::a('<span class="grey-text">'.Yii::$app->params['domain'].'</span>/'.$model->slug, '/'.$model->slug, ['target' => "_blank"]);
-                        },
-                    ],
-                    [
                         'attribute' => 'parent_id',
                         'format' => 'raw',
                         'value' => function ($model) {
