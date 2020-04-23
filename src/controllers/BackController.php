@@ -18,15 +18,15 @@ class BackController extends Controller
     {
         return [
             // ! добавить RBAC для навигации
-            // 'access' => [
-            //     'class' => AccessControl::class,
-            //     'rules' => [
-            //         [
-            //             'allow' => true,
-            //             'roles' => ['navigation']
-            //         ]
-            //     ]
-            // ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['navigation']
+                    ]
+                ]
+            ],
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
