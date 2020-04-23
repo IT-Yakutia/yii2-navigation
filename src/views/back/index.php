@@ -76,6 +76,14 @@ $this->title = 'Навигация';
                         'filter' => [0 => 'Нет', 1 => 'Да'],
                     ],
                     [
+                        'attribute' => 'color_switcher',
+                        'format' => 'raw',
+                        'value' => function ($model) {
+                            return $model->color_switcher ? '<i class="material-icons green-text">done</i>' : '<i class="material-icons red-text">clear</i>';
+                        },
+                        'filter' => [0 => 'Нет', 1 => 'Да'],
+                    ],
+                    [
                         'attribute' => 'created_at',
                         'format' => 'datetime',
                     ],

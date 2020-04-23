@@ -29,7 +29,7 @@ class Navigation extends ActiveRecord
     {
         return [
             [['name', 'link'], 'required'],
-            [['sort', 'is_publish', 'status', 'created_at', 'updated_at', 'parent_id'], 'integer'],
+            [['sort', 'is_publish', 'color_switcher', 'status', 'created_at', 'updated_at', 'parent_id'], 'integer'],
             [['name', 'link'], 'string', 'max' => 255]
         ];
     }
@@ -41,6 +41,7 @@ class Navigation extends ActiveRecord
             'name' => Yii::t('app', 'Имя'),
             'link' => Yii::t('app', 'Ссылка'),
             'parent_id' => Yii::t('app', 'Родительская'),
+            'color_switcher' => Yii::t('app', 'Переключение цвета'),
             'sort' => Yii::t('app', 'Сортировка'),
             'is_publish' => Yii::t('app', 'Опубликовать'),
             'status' => Yii::t('app', 'Статус'),
@@ -58,7 +59,8 @@ class Navigation extends ActiveRecord
             $root_ids[] = $root->id;
             $navigation[$root->id] = [
                 'label' => $root->name,
-                'url' => $root->link
+                'url' => $root->link,
+                'options' => $root->color_switcher ? ['class' => 'accent'] : null
             ];
         }
 

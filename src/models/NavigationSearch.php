@@ -10,7 +10,7 @@ class NavigationSearch extends Navigation
     public function rules()
     {
         return [
-            [['id', 'sort', 'is_publish', 'status', 'created_at', 'updated_at', 'parent_id'], 'integer'],
+            [['id', 'sort', 'is_publish', 'status', 'created_at', 'updated_at', 'parent_id', 'color_switcher'], 'integer'],
             [['name', 'parent_id', 'link'], 'safe']
         ];
     }
@@ -39,6 +39,7 @@ class NavigationSearch extends Navigation
             'id' => $this->id,
             'sort' => $this->sort,
             'is_publish' => $this->is_publish,
+            'color_switcher' => $this->color_switcher,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

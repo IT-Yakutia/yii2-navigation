@@ -19,6 +19,7 @@ $navigation = $model->isNewRecord
     ]); ?>
 
     <?= WCheckbox::widget(['model' => $model, 'attribute' => 'is_publish']); ?>
+    <?= WCheckbox::widget(['model' => $model, 'attribute' => 'color_switcher']); ?>
 
     <div class="row">
         <div class="col s12 m4 l6">
