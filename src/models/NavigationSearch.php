@@ -5,7 +5,7 @@ namespace ityakutia\navigation\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class NavigationSearch extends Navigation 
+class NavigationSearch extends Navigation
 {
     public function rules()
     {
@@ -20,13 +20,20 @@ class NavigationSearch extends Navigation
         return Model::scenarios();
     }
 
-    public function search($params)
+    public function search($params, $parent = null)
     {
-        $query = Navigation::find();
+        if (empty($parent)) {
+            $query = Navigation::find()->where(['parent_id' => null]);
+        } else {
+            $query = Navigation::find()->where(['parent_id' => $parent]);
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['sort'=>SORT_ASC]],
+            'sort' => ['defaultOrder' => ['sort' => SORT_ASC]],
+            'pagination' => [
+                'pageSize' => 100,
+            ],
         ]);
 
         $this->load($params);

@@ -60,13 +60,13 @@ $this->title = 'Навигация';
                             return Html::a($model->link, ['update', 'id' => $model->id]);
                         }
                     ],
-                    [
-                        'attribute' => 'parent_id',
-                        'format' => 'raw',
-                        'value' => function ($model) {
-                            return Html::a(Navigation::findOne($model->parent_id)->name, ['update', 'id' => $model->id]);
-                        }
-                    ],
+                    // [
+                    //     'attribute' => 'parent_id',
+                    //     'format' => 'raw',
+                    //     'value' => function ($model) {
+                    //         return Html::a(Navigation::findOne($model->parent_id)->name, ['update', 'id' => $model->id]);
+                    //     }
+                    // ],
                     [
                         'attribute' => 'is_publish',
                         'format' => 'raw',

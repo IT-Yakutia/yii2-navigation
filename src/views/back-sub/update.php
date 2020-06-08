@@ -2,7 +2,7 @@
 
 $this->title = 'Редактирование: ' . $model->name;
 ?>
-<div class="navigation-update">
+<div class="navigation-sub-update">
     <div class="row">
         <div class="col s12">
 		    <?= $this->render('_form', [

@@ -52,7 +52,7 @@ class Navigation extends ActiveRecord
 
     public function getTrees()
     {
-        $roots = Navigation::find()->where(['parent_id' => null])->andWhere(['is_publish' => true])->all();
+        $roots = Navigation::find()->where(['parent_id' => null])->andWhere(['is_publish' => true])->orderBy(['sort' => SORT_ASC])->all();
         $root_ids = [];
         $navigation = [];
         foreach ($roots as $root) {
@@ -64,7 +64,7 @@ class Navigation extends ActiveRecord
             ];
         }
 
-        $childs = Navigation::find()->where(['!=', 'parent_id', false])->andWhere(['is_publish' => true])->all();
+        $childs = Navigation::find()->where(['!=', 'parent_id', false])->andWhere(['is_publish' => true])->orderBy(['sort' => SORT_ASC])->all();
 
         foreach($navigation as $parent_id => $nav) {
             foreach($childs as $child) {
@@ -78,5 +78,10 @@ class Navigation extends ActiveRecord
         } 
 
         return $navigation;
+    }
+
+    public function getParentName()
+    {   
+        return $this->find()->where(['id' => $this->parent_id])->one()->name;
     }
 }
