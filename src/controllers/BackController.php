@@ -61,99 +61,97 @@ class BackController extends Controller
     public function actionCreate()
     {
         $model = new Navigation();
+        if (!empty(Yii::$app->request->post('Navigation'))) {
+            $post = Yii::$app->request->post('Navigation');
+            $model->name = $post['name'];
+            $model->link = $post['link'];
+            $model->position = $post['position'];
+            $parent_id = $post['parentId'];
 
-        $post = Yii::$app->request->post();
-        $load = $model->load($post);
+            if (empty($parent_id)) {
+                $trees_list = $model->getTreesList();
+                if (empty($trees_list)) {
+                    $model->tree = 1;
+                } else {
+                    $max = (int)max($trees_list)['tree'] + 1;
+                    $model->tree = $max;
+                }
+                $model->makeRoot();
+            } else {
+                $parent = Navigation::findOne($parent_id);
+                $model->appendTo($parent);
+            }
 
-        if ($load && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Запись успешно создана!');
-            return $this->redirect(Url::previous());
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
     }
-
-    public function actionCreateSub($parent)
-    {
-        $model = new Navigation();
-
-        $post = Yii::$app->request->post();
-        $load = $model->load($post);
-        $model->parent_id = $parent;
-
-        if ($load && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Запись успешно создана!');
-            return $this->redirect(['update', 'id' => $parent]);
-        }
-
-        return $this->render('createsub', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionUpdateSub($id)
-    {
-        $model = $this->findModel($id);
-        $searchModel = new NavigationSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
-
-        $post = Yii::$app->request->post();
-        $load = $model->load($post);
-
-        if ($load && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Запись успешно изменена!');
-            return $this->redirect(['update', 'id' => $model->parent_id]);
-        }
-
-        return $this->render('updatesub', [
-            'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $searchModel = new NavigationSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
+        if (!empty(Yii::$app->request->post('Navigation'))) {
 
-        $post = Yii::$app->request->post();
-        $load = $model->load($post);
+            $post  = Yii::$app->request->post('Navigation');
+            $model->name = $post['name'];
+            $model->link = $post['link'];
+            $model->position = $post['position'];
+            $parent_id = $post['parentId'];
 
-        if ($load && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Запись успешно изменена!');
-            return $this->redirect(Url::previous());
+            if ($model->save()) {
+                if (empty($parent_id)) {
+                    if (!$model->isRoot())
+                        $model->makeRoot();
+                } else {
+                    if ($model->id != $parent_id) {
+                        $parent = Navigation::findOne($parent_id);
+                        $model->appendTo($parent);
+                    }
+                }
+
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
         ]);
     }
 
     public function actionDelete($id)
     {
-        $modelDelete = $this->findModel($id)->delete();
-        if (false !== $modelDelete) {
-            Yii::$app->session->setFlash('success', 'Запись успешно удалена!');
-        }
-
-        return $this->redirect(Url::previous());
-    }
-
-    public function actionDeleteSub($id)
-    {
         $model = $this->findModel($id);
-        $parent = $model->parent_id;
-        if (false !== $model->delete()) {
-            Yii::$app->session->setFlash('success', 'Запись успешно удалена!');
+        if ($model->isRoot()) {
+
+            // Получаю максимальный ID среди ветвей
+            $max_tree = (int)max($model->getTreesList())['tree'] + 1;
+
+            // Флаг для слежения за глубиной дочерних элементов
+            $local_depth = 0;
+            $childs = $model->children()->all();
+            foreach ($childs as $child) {
+                // Если глубина стала меньше, чем сохранённая локально - началась новая ветвь дерева
+                if ($child->depth < $local_depth) {
+                    $max_tree++;
+                }
+                // Каждый раз слежу за глубиной дерева
+                $local_depth = $child->depth;
+                // Задаю новые пераметры ветвям
+                $child->tree = $max_tree;
+                $child->depth = $child->depth - 1;
+                $child->save();
+            }
+            // Выше перенёс дочерние элементы на новые деревья, поэтому deleteWithChildren удалит только старый корень
+            $model->depth = -1;
+            $model->save();
+            $model->deleteWithChildren();
+        } else {
+            $model->delete();
         }
 
-        return $this->redirect(['update', 'id' => $parent]);
+        return $this->redirect(['index']);
     }
 
     protected function findModel($id)
@@ -165,4 +163,96 @@ class BackController extends Controller
 
         return $model;
     }
+
+
+    // public function actionCreateSub($parent)
+    // {
+    //     $model = new Navigation();
+
+    //     $post = Yii::$app->request->post();
+    //     $load = $model->load($post);
+    //     $model->parent_id = $parent;
+
+    //     if ($load && $model->save()) {
+    //         Yii::$app->session->setFlash('success', 'Запись успешно создана!');
+    //         return $this->redirect(['update', 'id' => $parent]);
+    //     }
+
+    //     return $this->render('createsub', [
+    //         'model' => $model,
+    //     ]);
+    // }
+
+    // public function actionUpdateSub($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $searchModel = new NavigationSearch();
+    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
+
+    //     $post = Yii::$app->request->post();
+    //     $load = $model->load($post);
+
+    //     if ($load && $model->save()) {
+    //         Yii::$app->session->setFlash('success', 'Запись успешно изменена!');
+    //         return $this->redirect(['update', 'id' => $model->parent_id]);
+    //     }
+
+    //     return $this->render('updatesub', [
+    //         'model' => $model,
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider
+    //     ]);
+    // }
+
+    // public function actionUpdate($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $searchModel = new NavigationSearch();
+    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
+
+    //     $post = Yii::$app->request->post();
+    //     $load = $model->load($post);
+
+    //     if ($load && $model->save()) {
+    //         Yii::$app->session->setFlash('success', 'Запись успешно изменена!');
+    //         return $this->redirect(Url::previous());
+    //     }
+
+    //     return $this->render('update', [
+    //         'model' => $model,
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider
+    //     ]);
+    // }
+
+    // public function actionDelete($id)
+    // {
+    //     $modelDelete = $this->findModel($id)->delete();
+    //     if (false !== $modelDelete) {
+    //         Yii::$app->session->setFlash('success', 'Запись успешно удалена!');
+    //     }
+
+    //     return $this->redirect(Url::previous());
+    // }
+
+    // public function actionDeleteSub($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $parent = $model->parent_id;
+    //     if (false !== $model->delete()) {
+    //         Yii::$app->session->setFlash('success', 'Запись успешно удалена!');
+    //     }
+
+    //     return $this->redirect(['update', 'id' => $parent]);
+    // }
+
+    // protected function findModel($id)
+    // {
+    //     $model = Navigation::findOne($id);
+    //     if (null === $model) {
+    //         throw new NotFoundHttpException('The requested page does not exist.');
+    //     }
+
+    //     return $model;
+    // }
 }

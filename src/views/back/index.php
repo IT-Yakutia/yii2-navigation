@@ -60,13 +60,26 @@ $this->title = 'Навигация';
                             return Html::a($model->link, ['update', 'id' => $model->id]);
                         }
                     ],
-                    // [
-                    //     'attribute' => 'parent_id',
-                    //     'format' => 'raw',
-                    //     'value' => function ($model) {
-                    //         return Html::a(Navigation::findOne($model->parent_id)->name, ['update', 'id' => $model->id]);
-                    //     }
-                    // ],
+                    [
+                        'attribute' => 'tree',
+                        'format' => 'raw',
+                        'filter' => Navigation::find()->roots()->select('name', 'id')->indexBy('id')->column(),
+                        'value' => function ($model) {
+                            if ($model->depth > 0) {
+                                $tree = $model->parents()->all();
+                                $parents = [];
+                                $head = '';
+                                foreach ($tree as $parent) {
+                                    $parents[] = Html::a($head . $parent->name, ['update', 'id' => $parent->id]);
+                                    $head = $head . '-';
+                                }
+
+                                return implode("<br>", $parents);
+                            } else {
+                                return 'Нет родительских элементов';
+                            }
+                        }
+                    ],
                     [
                         'attribute' => 'is_publish',
                         'format' => 'raw',
