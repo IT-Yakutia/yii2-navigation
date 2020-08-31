@@ -120,8 +120,11 @@ class Navigation extends ActiveRecord
             ->all();
 
         $return = [];
-        foreach ($rows as $row)
-            $return[$row->id] = str_repeat('-', $row->depth) . ' ' . $row->name;
+        foreach ($rows as $row){
+            $return[$row->id]['depth'] = $row->depth;
+            $return[$row->id]['name'] = $row->name;
+            //$return[$row->id] = str_repeat('-', $row->depth) . ' ' . $row->name;
+        }
 
         return $return;
     }
@@ -129,5 +132,30 @@ class Navigation extends ActiveRecord
     public function getTreesList()
     {
         return $this->find()->select('tree')->asArray()->all();
+    }
+
+    public static function getNodes($node_id = 0)
+    {
+        // don't include children and the node
+        $children = [];
+
+        if (!empty($node_id))
+            $children = array_merge(
+                self::findOne($node_id)->children()->column(),
+                [$node_id]
+            );
+
+        $rows = self::find()
+            ->select('id, name, depth')
+            ->where(['NOT IN', 'id', $children])
+            ->orderBy('tree, lft, position')
+            ->all();
+
+        $return = [];
+        foreach ($rows as $row){
+            $return[$row->id] = str_repeat('-', $row->depth) . ' ' . $row->name;
+        }
+
+        return $return;
     }
 }

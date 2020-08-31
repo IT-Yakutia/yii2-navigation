@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class BackController extends Controller
 {
@@ -98,6 +99,8 @@ class BackController extends Controller
             $model->name = $post['name'];
             $model->link = $post['link'];
             $model->position = $post['position'];
+            $model->is_publish = $post['is_publish'];
+            $model->color_switcher = $post['color_switcher'];
             $parent_id = $post['parentId'];
 
             if ($model->save()) {
@@ -255,4 +258,47 @@ class BackController extends Controller
 
     //     return $model;
     // }
+
+    public function actionMove()
+    {
+        $move_node_id = str_replace('navitem_', '', Yii::$app->request->post('move_node_id')); // navitem_<ID>
+        $move_mode = Yii::$app->request->post('move_mode'); // 'makeRoot', 'prepend_to', 'append_to', 'insert_before', 'insert_after', 'deleteWithChildren', 'deleteWithChildrenInternal', 
+        $terget_node_id = str_replace('navitem_', '', Yii::$app->request->post('terget_node_id'));
+
+        $model = Navigation::find()->where(['id' => $move_node_id])->one();
+        $target_node = Navigation::find()->where(['id' => $terget_node_id])->one();
+        if($model === null || $target_node == null){
+            if( $move_mode !== 'makeRoot' && $model !== null){
+                \Yii::$app->response->format = Response::FORMAT_JSON;
+                return [
+                    'type' => 'error',
+                    'message' => 'Ошибка при сортировке! Узел или объект не найден',
+                ];
+            }
+        }
+
+        switch ($move_mode) {
+            case 'makeRoot':
+                $model->makeRoot();
+                break;
+            case 'prependTo':
+                $model->prependTo($target_node);
+                break;
+            case 'appendTo':
+                $model->appendTo($target_node);
+                break;
+            case 'insertBefore':
+                $model->insertBefore($target_node);
+                break;
+        }
+
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        return [
+            'type' => 'success',
+            'message' => 'Сортировка прошла успешно!',
+            'move_node_id' => $move_node_id,
+            'move_mode' => $move_mode,
+            'terget_node_id' => $terget_node_id,
+        ];
+    }
 }

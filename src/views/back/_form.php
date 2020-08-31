@@ -43,7 +43,7 @@ use yii\widgets\LinkPager;
         <?= Html::dropdownList(
             'Navigation[parentId]',
             $model->parentId,
-            $model::getTree($model->id),
+            $model::getNodes($model->id),
             ['prompt' => 'Нет родительских элементов', 'class' => 'form-control']
         ); ?>
 
