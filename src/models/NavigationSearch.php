@@ -39,6 +39,7 @@ class NavigationSearch extends Navigation
             'id' => $this->id,
             'color_switcher' => $this->color_switcher,
 
+            'depth' => 0, // Показывать только корни, каждый корень это новое меню
             'sort' => $this->sort,
             'is_publish' => $this->is_publish,
             'status' => $this->status,

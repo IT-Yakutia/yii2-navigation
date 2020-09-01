@@ -1,0 +1,112 @@
+@mixin grab-cursor {
+  cursor: url("https://www.google.com/intl/en_ALL/mapfiles/openhand.cur"), all-scroll;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: -o-grab;
+  cursor: -ms-grab;
+  cursor: grab;
+}
+@mixin grabbing-cursor {
+  cursor: url("https://www.google.com/intl/en_ALL/mapfiles/closedhand.cur"), all-scroll;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: -o-grabbing;
+  cursor: -ms-grabbing;
+  cursor: grabbing;
+}
+.box-drag {
+  font-family: "Open Sans", Tahoma, sans;
+  position: relative;
+  min-height: 15px;
+}
+.box-drag--wpr {
+  padding: 0 10px;
+  width: 100%;
+  margin: 0 auto;
+  font-family: "Open Sans", Tahoma, sans;
+  font-size: 12px;
+}
+.box-drag.ui-sortable {
+  background-color: rgba(204, 204, 204, 0.4);
+}
+.box-drag--table-title {
+  display: table;
+  width: 100%;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #e6e6e8;
+  color: #2f3b4c;
+  text-align: center;
+}
+.box-drag--table-title .box-drag--alias,
+.box-drag--table-title .box-drag--list {
+  box-shadow: inset 1px 0 0 0 #ffffff;
+}
+.box-drag--item {
+  position: relative;
+  display: table;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #ebebeb;
+  background-color: #ffffff;
+  padding: 0.5em;
+}
+.box-drag--item .box-drag--item {
+  padding: 0;
+  padding-left: 0.5em;
+  padding-bottom: 0.5em;
+  border: 0;
+}
+.box-drag--item .box-drag--item .box-drag--title {
+  padding-left: 1em;
+}
+.box-drag--item--internal {
+  width: 100%;
+  float: left;
+  background-color: rgba(235, 235, 235, 0.8) !important;
+  border: 1px dotted rgba(204, 204, 204, 0.5);
+}
+.box-drag--item .box-drag--item--internal .box-drag--item--internal .box-drag--item--internal {
+  display: none;
+}
+.box-drag--item:hover,
+.box-drag--item:focus {
+  @include grab-cursor;
+}
+.box-drag--item:active,
+.box-drag--item.ui-sortable-helper {
+  @include grabbing-cursor;
+}
+.box-drag .child-ident .child-ident {
+  padding-left: 1em;
+}
+.box-drag--title,
+.box-drag--alias,
+.box-drag--list {
+  box-sizing: border-box;
+  float: left;
+  padding: 0.5rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.box-drag--title {
+  position: relative;
+  width: 100%;
+  max-width: 255px;
+}
+.box-drag--title p {
+  padding-left: 1.5em;
+}
+.box-drag--others {
+  width: 420px;
+  float: right;
+}
+.box-drag--alias {
+  width: 40%;
+}
+.box-drag--list {
+  width: 60%;
+  text-align: right;
+}

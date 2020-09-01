@@ -1,0 +1,197 @@
+//Cores
+@santander-red: #fe0000;
+@blue-gray: #2f3b4c;
+@blue-gray-dark: #293846;
+@blue-text: #758190;
+@atomic-blue: #31ccff;
+@atomic-green: #5cd056;
+
+@gray-light: #e6e6e6;
+@gray-border: #e7eaec;
+@gray-bg: #f3f3f4;
+@gray-sub: #888888;
+
+@light-base: #ffffff;
+@dark-base: @blue-gray;
+
+@font-default: "Open Sans", Tahoma, sans;
+@font-awesome: "FontAwesome";
+
+//Grab cursor
+@mixin grab-cursor {
+  cursor: url("https://www.google.com/intl/en_ALL/mapfiles/openhand.cur"),
+    all-scroll;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: -o-grab;
+  cursor: -ms-grab;
+  cursor: grab;
+}
+
+@mixin grabbing-cursor {
+  cursor: url("https://www.google.com/intl/en_ALL/mapfiles/closedhand.cur"),
+    all-scroll;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: -o-grabbing;
+  cursor: -ms-grabbing;
+  cursor: grabbing;
+}
+
+.box-drag {
+  font-family: @font-default;
+  position: relative;
+  min-height: 15px;
+
+  &--wpr {
+    padding: 0 10px;
+    width: 100%;
+    margin: 0 auto;
+    font-family: @font-default;
+    font-size: 12px;
+  }
+  &.ui-sortable {
+    background-color: rgba(#cccccc, 0.4);
+  }
+  &--table-title {
+    display: table;
+    width: 100%;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #e6e6e8;
+    color: @dark-base;
+    text-align: center;
+
+    .box-drag--alias,
+    .box-drag--list {
+      box-shadow: inset 1px 0 0 0 #ffffff;
+
+      &:first-child {
+        //box-shadow: none;
+      }
+    }
+    // .box-drag--title {
+    //   &:before {
+    //     display: none;
+    //   }
+    // }
+  }
+  &--item {
+    position: relative;
+    display: table;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #ebebeb;
+    background-color: #ffffff;
+    padding: 0.5em;
+    //@include grab-cursor;
+    //padding: 1em;
+    //padding-left: 1em;
+
+    .box-drag--item {
+      padding: 0;
+      padding-left: 0.5em;
+      //padding-right: .5em;
+      padding-bottom: 0.5em;
+      border: 0;
+
+      // &:before {
+      // }
+
+      .box-drag--title {
+        padding-left: 1em;
+      }
+    }
+    &--internal {
+      width: 100%;
+      float: left;
+      //background: url(../img/bg-drag-text.png) center center no-repeat;
+      background-color: rgba(#ebebeb, 0.8) !important;
+      border: 1px dotted rgba(#cccccc, 0.5);
+
+      // &:nth-child(3) {
+      //   //display: none;
+      // }
+    }
+    .box-drag--item--internal
+      .box-drag--item--internal
+      .box-drag--item--internal {
+      display: none;
+    }
+    // &:not('.ui-sortable-helper') {
+    //   cursor: pointer;
+    // }
+    &:hover,
+    &:focus {
+      //cursor: pointer;
+      @include grab-cursor;
+    }
+    &:active,
+    &.ui-sortable-helper {
+      //cursor: move;
+      @include grabbing-cursor;
+      //border: 1px solid red;
+
+      // .box-drag--title {
+      //   &:before {
+      //     //color: rgba(#CCCCCC, 1);
+      //   }
+      // }
+    }
+  }
+  .child-ident {
+    .child-ident {
+      padding-left: 1em;
+    }
+  }
+
+  &--title,
+  &--alias,
+  &--list {
+    box-sizing: border-box;
+    float: left;
+    padding: 0.5rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  &--title {
+    position: relative;
+    width: 100%;
+    max-width: 255px;
+
+    p {
+      padding-left: 1.5em;
+    }
+
+    // &:before {
+    //   content: "\f0c9";
+    //   font-family: @font-awesome;
+    //   position: absolute;
+    //   font-size: 1em;
+    //   color: rgba(#cccccc, 0.7);
+    // }
+  }
+  // .cmore {
+  //   > .box-drag--title:before {
+  //     content: "\f068";
+  //   }
+  //   &.active {
+  //     > .box-drag--title:before {
+  //       content: "\f067";
+  //     }
+  //   }
+  // }
+  &--others {
+    width: 420px;
+    float: right;
+  }
+  &--alias {
+    width: 40%;
+  }
+  &--list {
+    width: 60%;
+    text-align: right;
+  }
+}
