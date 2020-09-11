@@ -65,16 +65,7 @@
     .box-drag--alias,
     .box-drag--list {
       box-shadow: inset 1px 0 0 0 #ffffff;
-
-      &:first-child {
-        //box-shadow: none;
-      }
     }
-    // .box-drag--title {
-    //   &:before {
-    //     display: none;
-    //   }
-    // }
   }
   &--item {
     position: relative;
@@ -84,20 +75,11 @@
     border: 1px solid #ebebeb;
     background-color: #ffffff;
     padding: 0.5em;
-    //@include grab-cursor;
-    //padding: 1em;
-    //padding-left: 1em;
-
     .box-drag--item {
       padding: 0;
       padding-left: 0.5em;
-      //padding-right: .5em;
       padding-bottom: 0.5em;
       border: 0;
-
-      // &:before {
-      // }
-
       .box-drag--title {
         padding-left: 1em;
       }
@@ -105,38 +87,21 @@
     &--internal {
       width: 100%;
       float: left;
-      //background: url(../img/bg-drag-text.png) center center no-repeat;
       background-color: rgba(#ebebeb, 0.8) !important;
       border: 1px dotted rgba(#cccccc, 0.5);
-
-      // &:nth-child(3) {
-      //   //display: none;
-      // }
     }
     .box-drag--item--internal
       .box-drag--item--internal
       .box-drag--item--internal {
       display: none;
     }
-    // &:not('.ui-sortable-helper') {
-    //   cursor: pointer;
-    // }
     &:hover,
     &:focus {
-      //cursor: pointer;
       @include grab-cursor;
     }
     &:active,
     &.ui-sortable-helper {
-      //cursor: move;
       @include grabbing-cursor;
-      //border: 1px solid red;
-
-      // .box-drag--title {
-      //   &:before {
-      //     //color: rgba(#CCCCCC, 1);
-      //   }
-      // }
     }
   }
   .child-ident {
@@ -164,25 +129,7 @@
     p {
       padding-left: 1.5em;
     }
-
-    // &:before {
-    //   content: "\f0c9";
-    //   font-family: @font-awesome;
-    //   position: absolute;
-    //   font-size: 1em;
-    //   color: rgba(#cccccc, 0.7);
-    // }
   }
-  // .cmore {
-  //   > .box-drag--title:before {
-  //     content: "\f068";
-  //   }
-  //   &.active {
-  //     > .box-drag--title:before {
-  //       content: "\f067";
-  //     }
-  //   }
-  // }
   &--others {
     width: 420px;
     float: right;

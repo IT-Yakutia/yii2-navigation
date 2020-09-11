@@ -27,29 +27,27 @@ use yii\widgets\LinkPager;
         <div class="col s12 m4 l4">
             <?= WCheckbox::widget(['model' => $model, 'attribute' => 'color_switcher']); ?>
         </div>
+        <div class="col s12 m4 l4">
+            <div class='form-group field-attribute-parentId'>
+                <?= Html::label('Родительский элемент', 'parent', ['class' => 'control-label']); ?>
+                <?= Html::dropdownList(
+                    'Navigation[parentId]',
+                    $model->parentId,
+                    $model::getNodes($model->id),
+                    ['prompt' => 'Нет родительских элементов', 'class' => 'form-control']
+                ); ?>
+            </div>
+        </div>
     </div>
 
     <div class="row">
-        <div class="col s12 m4 l6">
+        <div class="col s12 m6 l6">
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col s12 m4 l6">
+        <div class="col s12 m6 l6">
             <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
-
-    <div class='form-group field-attribute-parentId'>
-        <?= Html::label('Родительский элемент', 'parent', ['class' => 'control-label']); ?>
-        <?= Html::dropdownList(
-            'Navigation[parentId]',
-            $model->parentId,
-            $model::getNodes($model->id),
-            ['prompt' => 'Нет родительских элементов', 'class' => 'form-control']
-        ); ?>
-
-    </div>
-
-    <?= $form->field($model, 'position')->textInput(['type' => 'number']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn']) ?>

@@ -75,7 +75,7 @@ class BackController extends Controller
             $post = Yii::$app->request->post('Navigation');
             $model->name = $post['name'];
             $model->link = $post['link'];
-            $model->position = $post['position'];
+            //$model->position = $post['position'];
             $parent_id = $post['parentId'];
 
             if (empty($parent_id)) {
@@ -107,7 +107,7 @@ class BackController extends Controller
             $post  = Yii::$app->request->post('Navigation');
             $model->name = $post['name'];
             $model->link = $post['link'];
-            $model->position = $post['position'];
+            //$model->position = $post['position'];
             $model->is_publish = $post['is_publish'];
             $model->color_switcher = $post['color_switcher'];
             $parent_id = $post['parentId'];

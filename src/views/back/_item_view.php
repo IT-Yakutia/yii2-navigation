@@ -21,7 +21,7 @@ use yii\helpers\Html;
         </div>
     </div>
 
-    <div class="box-drag--item--internal box-drag">
+    <div id="model-<?= $model->id ?>" class="box-drag--item--internal box-drag">
         <?php foreach ($model->children(1)->all() as $key => $subItem) { ?>
             <?= $this->render('_item_view', [
                 'model' => $subItem

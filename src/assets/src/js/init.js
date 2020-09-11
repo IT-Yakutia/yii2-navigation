@@ -31,6 +31,7 @@
           });
         },
         update: function(event, ui) { // sort on the one level
+          var move_area_id = $(event.target).attr('id');
           var current_node_id = $(ui.item).attr('id');
           var parent_id = $(ui.item).parents('.box-drag--item').attr('id');
           
@@ -50,11 +51,17 @@
               switch (index) {
                 case 0:
                   // prepend
-                  ajaxSortNested(current_node_id, 'prependTo', parent_id);
+                  console.log(move_area_id.replace('model-', ''), parent_id.replace('navitem_', ''));
+                  if(move_area_id.replace('model-', '') == parent_id.replace('navitem_', '')){
+                    ajaxSortNested(current_node_id, 'prependTo', parent_id);
+                  }
                   break;
                 case (siblings_count - 1):
                   // append
-                  ajaxSortNested(current_node_id, 'appendTo', parent_id);
+                  console.log(move_area_id.replace('model-', ''), parent_id.replace('navitem_', ''));
+                  if(move_area_id.replace('model-', '') == parent_id.replace('navitem_', '')){
+                    ajaxSortNested(current_node_id, 'appendTo', parent_id);
+                  }
                   break;
                 default:
                   // insert before
