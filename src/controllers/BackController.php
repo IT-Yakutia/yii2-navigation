@@ -73,9 +73,7 @@ class BackController extends Controller
         $model = new Navigation();
         if (!empty(Yii::$app->request->post('Navigation'))) {
             $post = Yii::$app->request->post('Navigation');
-            $model->name = $post['name'];
-            $model->link = $post['link'];
-            //$model->position = $post['position'];
+            $model->load(Yii::$app->request->post());
             $parent_id = $post['parentId'];
 
             if (empty($parent_id)) {
@@ -104,12 +102,8 @@ class BackController extends Controller
         $model = $this->findModel($id);
         if (!empty(Yii::$app->request->post('Navigation'))) {
 
-            $post  = Yii::$app->request->post('Navigation');
-            $model->name = $post['name'];
-            $model->link = $post['link'];
-            //$model->position = $post['position'];
-            $model->is_publish = $post['is_publish'];
-            $model->color_switcher = $post['color_switcher'];
+            $post = Yii::$app->request->post('Navigation');
+            $model->load(Yii::$app->request->post());
             $parent_id = $post['parentId'];
 
             if ($model->save()) {
@@ -184,8 +178,8 @@ class BackController extends Controller
 
         $model = Navigation::find()->where(['id' => $move_node_id])->one();
         $target_node = Navigation::find()->where(['id' => $terget_node_id])->one();
-        if($model === null || $target_node == null){
-            if( $move_mode !== 'makeRoot' && $model !== null){
+        if ($model === null || $target_node == null) {
+            if ($move_mode !== 'makeRoot' && $model !== null) {
                 \Yii::$app->response->format = Response::FORMAT_JSON;
                 return [
                     'type' => 'error',
