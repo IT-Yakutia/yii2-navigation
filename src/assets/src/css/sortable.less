@@ -97,11 +97,19 @@
     }
     &:hover,
     &:focus {
-      @include grab-cursor;
+      // @include grab-cursor;
+      cursor: move; /* fallback if grab cursor is unsupported */
+      cursor: grab;
+      cursor: -moz-grab;
+      cursor: -webkit-grab;
     }
     &:active,
     &.ui-sortable-helper {
-      @include grabbing-cursor;
+      // @include grabbing-cursor;
+      cursor: move; /* fallback if grab cursor is unsupported */
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
     }
   }
   .child-ident {

@@ -71,11 +71,19 @@
 }
 .box-drag--item:hover,
 .box-drag--item:focus {
-  @include grab-cursor;
+  cursor: move;
+  /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
 }
 .box-drag--item:active,
 .box-drag--item.ui-sortable-helper {
-  @include grabbing-cursor;
+  cursor: move;
+  /* fallback if grab cursor is unsupported */
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }
 .box-drag .child-ident .child-ident {
   padding-left: 1em;
