@@ -23,7 +23,7 @@ class BackController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['navigation']
+                        'permissions' => ['navigation']
                     ]
                 ]
             ],

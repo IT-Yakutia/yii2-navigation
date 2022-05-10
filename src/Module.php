@@ -1,8 +1,6 @@
 <?php
 
-
 namespace ityakutia\navigation;
-
 
 use yii\base\Module as BaseModule;
 

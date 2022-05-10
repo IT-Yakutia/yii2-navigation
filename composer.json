@@ -17,12 +17,20 @@
       "uraankhayayaal/yii2-redactor": "*",
       "creocoder/yii2-nested-sets": "^0.9.0"
     },
-    "extra": {
-      "bootstrap": "ityakutia\\navigation\\Bootstrap"
-    },
     "autoload": {
       "psr-4": {
         "ityakutia\\navigation\\": "src"
+      }
+    },
+    "repositories": [
+      {
+        "type": "composer",
+        "url": "https://asset-packagist.org"
+      }
+    ],
+    "config": {
+      "allow-plugins": {
+        "yiisoft/yii2-composer": true
       }
     }
   }
